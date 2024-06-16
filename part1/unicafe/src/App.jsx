@@ -2,26 +2,32 @@ const Header = (course) => {
   return <p>{course.name}</p>;
 };
 
-const Content = (lesson) => {
+const Part = (lesson) => {
   return (
-    <p>
+    <>
       part: {lesson.part} and exercises: {lesson.exercises}
-    </p>
+    </>
   );
 };
 
-const Total = ({number}) => {
-  console.log(number);
-  let total = 0
+const Content = (lessons) => {
+  return (
+    <div>
+      <Part part={lessons.part[0]} exercises={lessons.exercises[0]} />
+      <br />
+      <Part part={lessons.part[1]} exercises={lessons.exercises[1]} />
+      <br />
+      <Part part={lessons.part[2]} exercises={lessons.exercises[2]} />
+    </div>
+  );
+};
+const Total = ({ number }) => {
+  let total = 0;
   for (let index = 0; index < number.length; index++) {
     total += number[index];
   }
-  return(
-    <p>
-      Total exercises: {total}
-    </p>
-  )
-}
+  return <p>Total exercises: {total}</p>;
+};
 
 const App = () => {
   const course = "Half Stack application development";
@@ -35,10 +41,11 @@ const App = () => {
   return (
     <div>
       <Header name={course} />
-      <Content part={part1} exercises={exercises1} />
-      <Content part={part2} exercises={exercises2} />
-      <Content part={part3} exercises={exercises3} />
-      <Total number={[exercises1,exercises2,exercises3]}/>
+      <Content
+        part={[part1, part2, part3]}
+        exercises={[exercises1, exercises2, exercises3]}
+      />
+      <Total number={[exercises1, exercises2, exercises3]} />
     </div>
   );
 };
