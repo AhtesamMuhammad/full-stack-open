@@ -1,0 +1,8 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    browser->>server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    Note right of browser: The browser send new note request with the new date for add to the JSON.
+    server-->> browser: Replies with ../spa & Code 201
+    Note right of browser: Brower reload the notes array with the new one.

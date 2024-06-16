@@ -1,0 +1,29 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    browser->>server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+    Note right of browser: The browser send new note request with the new date for add to the JSON.
+    server-->> browser: Replies adding the new note
+
+    browser->>server:  New HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
+    server-->>browser: Replies HTML document
+    deactivate server
+
+    browser->>server:  New HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: Replies CSS file
+    deactivate server
+
+    browser->>server: New HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: Replies Execute JavaScript file
+    deactivate server
+
+    browser->>server: New HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    activate server
+    server-->>browser: [{ "content": "Life is good", "date": "2024-06-16" }, ... ]
+    deactivate server
+
+    Note right of browser: Browser reload the page with the new note in the list
