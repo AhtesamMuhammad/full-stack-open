@@ -4,34 +4,24 @@ const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
 );
 
-const Average = ({arrayClicks}) => {
-  if(arrayClicks.length === 0){
-    return(
-      <div>0</div>
-    )
+const Statistics = ({ arrayClicks }) => {
+  if (arrayClicks.length === 0) {
+    return <div>0</div>;
   }
 
-  const sum = arrayClicks.reduce((sum, number) => sum + number,0)
-  const average = sum / arrayClicks.length
-  return(
-    <div>
-      {average}
-    </div>
-  )
-}
+  const sumAllScores = arrayClicks.reduce((sum, number) => sum + number, 0);
+  const average = sumAllScores / arrayClicks.length;
 
-const Positive = ({arrayClicks}) => {
-  if(arrayClicks.length === 0){
-    return(
-      <div>0 %</div>
-    )
-  }
-  const sumPositive = arrayClicks.filter(value => value > 0).length
-  const percent = (sumPositive/arrayClicks.length)*100
+  const sumPositive = arrayClicks.filter((value) => value > 0).length;
+  const percentaPositive = (sumPositive / arrayClicks.length) * 100;
+
   return (
-    <div>{percent} %</div>
-  )
-}
+    <div>
+      <p>{average}</p>
+      <p>{percentaPositive} %</p>
+    </div>
+  );
+};
 
 const App = () => {
   const [good, setGood] = useState(0);
@@ -65,8 +55,7 @@ const App = () => {
       <p>neutral {neutral}</p>
       <p>bad {bad}</p>
       <p>all {allClicks.length}</p>
-      <Average arrayClicks={allClicks}/>
-      <Positive arrayClicks={allClicks}/>
+      <Statistics arrayClicks={allClicks} />
     </div>
   );
 };
