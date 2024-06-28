@@ -1,18 +1,26 @@
 import { useState } from "react";
 
-const Button = ({ handleClick, text }) => <button onClick={handleClick}>{text}</button>
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>{text}</button>
+);
 
-const StatisticLine = ({text, value}) =>{
-  if (text === 'positive') {
+const StatisticLine = ({ text, value }) => {
+  if (text !== "positive") {
     return (
-      <p>{text} {value} %</p>
-    )
+      <tr>
+        <td>{text}</td>
+        <td>{value}</td>
+      </tr>
+    );
   }
-  
-  return(
-    <p>{text} {value}</p>
-  )
-} 
+
+  return (
+    <tr>
+      <td>{text}</td>
+      <td>{value} %</td>
+    </tr>
+  );
+};
 
 const Statistics = ({ allClicks }) => {
   const { good, neutral, bad } = allClicks;
@@ -21,20 +29,22 @@ const Statistics = ({ allClicks }) => {
   const average = (good + bad * -1) / totalClicks;
   const positive = (good / totalClicks) * 100;
 
-  if(totalClicks === 0){
-    return(
-      <div>No feedback given</div>
-    )
+  if (totalClicks === 0) {
+    return <p>No feedback given</p>
   }
 
   return (
     <div>
-      <StatisticLine text='good' value={good}/>
-      <StatisticLine text='neutral' value={neutral}/>
-      <StatisticLine text='bad' value={bad}/>
-      <StatisticLine text='all' value={totalClicks}/>
-      <StatisticLine text='average' value={average}/>
-      <StatisticLine text='positive' value={positive}/>
+      <table>
+        <tbody>
+          <StatisticLine text="good" value={good} />
+          <StatisticLine text="neutral" value={neutral} />
+          <StatisticLine text="bad" value={bad} />
+          <StatisticLine text="all" value={totalClicks} />
+          <StatisticLine text="average" value={average} />
+          <StatisticLine text="positive" value={positive} />
+          </tbody>
+      </table>
     </div>
   );
 };
