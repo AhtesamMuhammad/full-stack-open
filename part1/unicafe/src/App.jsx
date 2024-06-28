@@ -4,45 +4,52 @@ const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
 );
 
-const Statistics = ({ arrayClicks }) => {
-  if (arrayClicks.length === 0) {
-    return <div>0</div>;
-  }
+const Statistics = ({ allClicks }) => {
+  const { good, neutral, bad } = allClicks;
+  const totalClicks = good + neutral + bad;
 
-  const sumAllScores = arrayClicks.reduce((sum, number) => sum + number, 0);
-  const average = sumAllScores / arrayClicks.length;
-
-  const sumPositive = arrayClicks.filter((value) => value > 0).length;
-  const percentaPositive = (sumPositive / arrayClicks.length) * 100;
+  const average = (good + bad * -1) / totalClicks;
+  const positive = (good / totalClicks) * 100;
 
   return (
     <div>
       <p>{average}</p>
-      <p>{percentaPositive} %</p>
+      <p>{positive} %</p>
     </div>
   );
 };
 
 const App = () => {
-  const [good, setGood] = useState(0);
-  const [neutral, setNeutral] = useState(0);
-  const [bad, setBad] = useState(0);
-  const [allClicks, setAll] = useState([]);
+  const [allClicks, setClicks] = useState({
+    good: 0,
+    neutral: 0,
+    bad: 0,
+  });
 
   const handleGoodClick = () => {
-    setGood(good + 1);
-    setAll(allClicks.concat(1));
+    setClicks({ ...allClicks, good: allClicks.good + 1 });
   };
 
   const handleNeutralClick = () => {
-    setNeutral(neutral + 1);
-    setAll(allClicks.concat(0));
+    setClicks({ ...allClicks, neutral: allClicks.neutral + 1 });
   };
 
   const handleBadClick = () => {
-    setBad(bad + 1);
-    setAll(allClicks.concat(-1));
+    setClicks({ ...allClicks, bad: allClicks.bad + 1 });
   };
+
+  if (allClicks.good === 0 && allClicks.neutral === 0 && allClicks.bad === 0) {
+    return (
+      <div>
+        <h1>give feedback</h1>
+        <Button handleClick={handleGoodClick} text="good" />
+        <Button handleClick={handleNeutralClick} text="neutral" />
+        <Button handleClick={handleBadClick} text="bad" />
+        <h1>statistics</h1>
+        <p>No feedback given</p>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -51,11 +58,11 @@ const App = () => {
       <Button handleClick={handleNeutralClick} text="neutral" />
       <Button handleClick={handleBadClick} text="bad" />
       <h1>statistics</h1>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {allClicks.length}</p>
-      <Statistics arrayClicks={allClicks} />
+      <p>good {allClicks.good}</p>
+      <p>neutral {allClicks.neutral}</p>
+      <p>bad {allClicks.bad}</p>
+      <p>all {allClicks.good+allClicks.neutral+allClicks.bad}</p>
+      <Statistics allClicks={allClicks} />
     </div>
   );
 };
